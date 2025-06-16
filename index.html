@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculatrice TVA Maroc</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .calculator {
+      background-color: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    h2 {
+      text-align: center;
+      color: #007bff;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      font-weight: bold;
+      margin-top: 15px;
+      color: #28a745;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Calculatrice TVA Maroc</h2>
+    <label for="type">Type de calcul :</label>
+    <select id="type">
+      <option value="ht_to_ttc">HT vers TTC</option>
+      <option value="ttc_to_ht">TTC vers HT</option>
+    </select>
+
+    <label for="taux">Taux de TVA (%) :</label>
+    <select id="taux">
+      <option value="20">20%</option>
+      <option value="14">14%</option>
+      <option value="10">10%</option>
+      <option value="7">7%</option>
+    </select>
+
+    <label for="montant">Montant :</label>
+    <input type="number" id="montant" placeholder="Entrez le montant" />
+
+    <button onclick="calculerTVA()">Calculer</button>
+
+    <div class="result" id="resultat"></div>
+  </div>
+
+  <script>
+    function calculerTVA() {
+      const type = document.getElementById('type').value;
+      const taux = parseFloat(document.getElementById('taux').value);
+      const montant = parseFloat(document.getElementById('montant').value);
+      const resultatDiv = document.getElementById('resultat');
+
+      if (isNaN(montant)) {
+        resultatDiv.textContent = 'Veuillez entrer un montant valide.';
+        return;
+      }
+
+      let resultat = '';
+
+      if (type === 'ht_to_ttc') {
+        const tva = montant * (taux / 100);
+        const ttc = montant + tva;
+        resultat = `Montant TTC : ${ttc.toFixed(2)} DH (TVA : ${tva.toFixed(2)} DH)`;
+      } else {
+        const ht = montant / (1 + taux / 100);
+        const tva = montant - ht;
+        resultat = `Montant HT : ${ht.toFixed(2)} DH (TVA : ${tva.toFixed(2)} DH)`;
+      }
+
+      resultatDiv.textContent = resultat;
+    }
+  </script>
+</body>
+</html>
